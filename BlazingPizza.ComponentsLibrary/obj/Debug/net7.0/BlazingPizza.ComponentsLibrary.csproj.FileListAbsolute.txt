@@ -19,3 +19,4 @@ E:\Coding\Web development\BlazingPizza\BlazingPizza.ComponentsLibrary\obj\Debug\
 E:\Coding\Web development\BlazingPizza\BlazingPizza.ComponentsLibrary\obj\Debug\net7.0\refint\BlazingPizza.ComponentsLibrary.dll
 E:\Coding\Web development\BlazingPizza\BlazingPizza.ComponentsLibrary\obj\Debug\net7.0\BlazingPizza.ComponentsLibrary.pdb
 E:\Coding\Web development\BlazingPizza\BlazingPizza.ComponentsLibrary\obj\Debug\net7.0\ref\BlazingPizza.ComponentsLibrary.dll
+E:\Coding\Web development\BlazingPizza\BlazingPizza.ComponentsLibrary\obj\Debug\net7.0\BlazingPizza.ComponentsLibrary.sourcelink.json
