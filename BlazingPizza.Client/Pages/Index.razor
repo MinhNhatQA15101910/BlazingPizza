@@ -7,7 +7,7 @@
         {
             @foreach (var special in specials)
             {
-                <li style="background-image: url('@special.ImageUrl');">
+                <li @onclick="@(() => ShowConfigurePizzaDialog(special))" style="background-image: url('@special.ImageUrl');">
                     <div class="pizza-info">
                         <span class="title">@special.Name</span>
                         @special.Description
@@ -19,11 +19,50 @@
     </ul>
 </div>
 
-@code {
-    List<PizzaSpecial> specials;
+@if (showingConfigureDialog)
+{
+    <ConfigurePizzaDialog 
+        Pizza="configuringPizza" 
+        OnCancel="CancelConfigurePizzaDialog"
+        OnConfirm="ConfirmConfigurePizzaDialog" />
+}
 
-        protected override async Task OnInitializedAsync()
+@code 
+{
+    List<PizzaSpecial> specials;
+    Pizza configuringPizza;
+    bool showingConfigureDialog;
+    Order order = new Order();
+
+    protected override async Task OnInitializedAsync()
+    {
+        specials = await HttpClient.GetFromJsonAsync<List<PizzaSpecial>>("specials", BlazingPizza.OrderContext.Default.ListPizzaSpecial);
+    }
+
+    private void ShowConfigurePizzaDialog(PizzaSpecial special)
+    {
+        configuringPizza = new()
         {
-            specials = await HttpClient.GetFromJsonAsync<List<PizzaSpecial>>("specials", BlazingPizza.OrderContext.Default.ListPizzaSpecial);
-        }
+            Special = special,
+            SpecialId = special.Id,
+            Size = Pizza.DefaultSize,
+            Toppings = new()
+        };
+
+        showingConfigureDialog = true;
+    }
+
+    private void ConfirmConfigurePizzaDialog()
+    {
+        order.Pizzas.Add(configuringPizza);
+        configuringPizza = null;
+
+        showingConfigureDialog = false;
+    }
+
+    private void CancelConfigurePizzaDialog()
+    {
+        configuringPizza = null;
+        showingConfigureDialog = false;
+    }
 }

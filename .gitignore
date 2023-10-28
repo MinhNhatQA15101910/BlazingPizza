@@ -1,7 +1,10 @@
 *.suo
 *.user
 *.db
+*.db-shm
+*.db-wal
 _ReSharper.*
 bin
 obj
 packages
+.fake
