@@ -1,5 +1,6 @@
 *.suo
 *.user
+*.db
 _ReSharper.*
 bin
 obj
