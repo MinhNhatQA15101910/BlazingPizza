@@ -1,4 +1,4 @@
-@inject HttpClient HttpClient
+﻿@inject HttpClient HttpClient
 
 <div class="dialog-container">
     <div class="dialog">
@@ -6,7 +6,6 @@
             <h2>@Pizza.Special.Name</h2>
             @Pizza.Special.Description
         </div>
-
         <form class="dialog-body">
             <div>
                 <label>Size:</label>
@@ -15,10 +14,9 @@
                     @(Pizza.Size)" (£@(Pizza.GetFormattedTotalPrice()))
                 </span>
             </div>
-
             <div>
-                <label>Extra Toppings</label>
-                @if (toppings == null) 
+                <label>Extra Toppings:</label>
+                @if (toppings == null)
                 {
                     <select class="custom-select" disabled>
                         <option>(loading...)</option>
@@ -51,6 +49,7 @@
                 }
             </div>
         </form>
+
         <div class="dialog-buttons">
             <button class="btn btn-secondary mr-auto" @onclick="OnCancel">Cancel</button>
             <span class="mr-center">
@@ -63,17 +62,17 @@
 
 @code {
     List<Topping> toppings;
-    [Parameter] public Pizza Pizza { get; set; }
 
+    [Parameter] public Pizza Pizza { get; set; }
     [Parameter] public EventCallback OnCancel { get; set; }
     [Parameter] public EventCallback OnConfirm { get; set; }
 
-    protected override async Task OnInitializedAsync()
+    protected async override Task OnInitializedAsync()
     {
         toppings = await HttpClient.GetFromJsonAsync<List<Topping>>("toppings");
     }
 
-    private void ToppingSelected(ChangeEventArgs e)
+    void ToppingSelected(ChangeEventArgs e)
     {
         if (int.TryParse((string)e.Value, out var index) && index >= 0)
         {
@@ -81,15 +80,15 @@
         }
     }
 
-    private void AddTopping(Topping topping)
+    void AddTopping(Topping topping)
     {
         if (Pizza.Toppings.Find(pt => pt.Topping == topping) == null)
         {
-            Pizza.Toppings.Add(new PizzaTopping { Topping = topping });
+            Pizza.Toppings.Add(new PizzaTopping() { Topping = topping });
         }
     }
 
-    private void RemoveTopping(Topping topping)
+    void RemoveTopping(Topping topping)
     {
         Pizza.Toppings.RemoveAll(pt => pt.Topping == topping);
     }

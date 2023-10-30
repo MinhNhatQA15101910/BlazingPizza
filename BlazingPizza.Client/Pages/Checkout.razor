@@ -52,7 +52,7 @@
         var newOrderId = await response.Content.ReadFromJsonAsync<int>();
         OrderState.ResetOrder();
         NavigationManager.NavigateTo($"myorders/{newOrderId}");
-        isSubmitting = true;
+        isSubmitting = false;
     }
 
     private void HandleFieldChanged(object sender, FieldChangedEventArgs e)

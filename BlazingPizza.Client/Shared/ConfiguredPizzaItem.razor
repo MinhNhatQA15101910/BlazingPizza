@@ -1,4 +1,4 @@
-<div class="cart-item">
+﻿<div class="cart-item">
     <a @onclick="OnRemoved" class="delete-item">x</a>
     <div class="title">@(Pizza.Size)" @Pizza.Special.Name</div>
     <ul>
@@ -12,8 +12,7 @@
     </div>
 </div>
 
-@code 
-{
+@code {
     [Parameter] public Pizza Pizza { get; set; }
     [Parameter] public EventCallback OnRemoved { get; set; }
 }
