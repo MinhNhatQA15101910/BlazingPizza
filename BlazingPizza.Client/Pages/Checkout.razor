@@ -1,6 +1,6 @@
 @page "/checkout"
 @implements IDisposable
-@inject HttpClient HttpClient
+@inject OrdersClient OrdersClient
 @inject NavigationManager NavigationManager
 @inject OrderState OrderState
 @using Services
@@ -48,11 +48,17 @@
     private async Task PlaceOrder()
     {
         isSubmitting = true;
-        var response = await HttpClient.PostAsJsonAsync("orders", OrderState.Order);
-        var newOrderId = await response.Content.ReadFromJsonAsync<int>();
-        OrderState.ResetOrder();
-        NavigationManager.NavigateTo($"myorders/{newOrderId}");
-        isSubmitting = false;
+        
+        try 
+        {
+            var newOrderId = await OrdersClient.PlaceOrder(OrderState.Order);
+            OrderState.ResetOrder();
+            NavigationManager.NavigateTo($"myorders/{newOrderId}");
+        }
+        catch (AccessTokenNotAvailableException ex)
+        {
+            ex.Redirect();
+        }
     }
 
     private void HandleFieldChanged(object sender, FieldChangedEventArgs e)
